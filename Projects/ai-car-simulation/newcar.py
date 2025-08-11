@@ -34,7 +34,7 @@ class Car:
         self.speed = 0
 
         self.speed_set = False
-        self.cetner = [self.position[0] + CAR_SIZE_X /
+        self.center = [self.position[0] + CAR_SIZE_X /
                        2, self.position[1] + CAR_SIZE_Y / 2]
 
         self.radars = []
@@ -44,15 +44,15 @@ class Car:
         self.distance = 0
         self.time = 0
 
-    def draw(self, screen):
-        screen.blit(self.rotated_sprite, self.position)
-        self.draw
-
     def draw_radar(self, screen):
         for radar in self.radars:
             position = radar[0]
-            pygame.draw.line(screen, (0, 255, 0), self.cetner, position, 1)
+            pygame.draw.line(screen, (0, 255, 0), self.center, position, 1)
             pygame.draw.circle(screen, (0, 255, 0), position, 5)
+
+    def draw(self, screen):
+        screen.blit(self.rotated_sprite, self.position)
+        self.draw_radar(screen)
 
     def check_collision(self, game_map):
         self.alive = True
@@ -64,9 +64,9 @@ class Car:
     def check_radar(self, degree, game_map):
         length = 0
         x = int(
-            self.cetner[0] + math.cos(math.radians(360 - (self.angle + degree))) * length)
+            self.center[0] + math.cos(math.radians(360 - (self.angle + degree))) * length)
         y = int(
-            self.cetner[1] + math.sin(math.radians(360 - (self.angle + degree))) * length)
+            self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * length)
 
         while not game_map.get_at((x, y)) == BORDER_COLOR and length < 300:
             length = length + 1
@@ -76,7 +76,7 @@ class Car:
                 self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * length)
 
         dist = int(
-            math.sqrt(math.pow(x - self.cetner[0], 2) + math.pow(y - self.cetner[1], 2)))
+            math.sqrt(math.pow(x - self.center[0], 2) + math.pow(y - self.center[1], 2)))
         self.radars.append([(x, y), dist])
 
     def update(self, game_map):
@@ -99,7 +99,7 @@ class Car:
         self.position[1] += math.sin(math.radians(360 -
                                      self.angle)) * self.speed
         self.position[1] = max(self.position[1], 20)
-        self.position[1] = min(self.position[1], WIDTH - 120)
+        self.position[1] = min(self.position[1], HEIGHT - 120)
 
         # Calculate New Center
         self.center = [int(self.position[0]) + CAR_SIZE_X / 2,
@@ -156,7 +156,7 @@ class Car:
 
         # Heavy crash penalty
         if not self.alive:
-            reward -= reward * 0.2
+            reward -= reward * 0.5
 
         return reward
 
@@ -194,7 +194,7 @@ def run_simulation(genomes, config):
     generation_font = pygame.font.SysFont("Arial", 30)
     alive_font = pygame.font.SysFont("Arial", 20)
     game_map = pygame.image.load(
-        './data/map.png').convert()  # Convert Speeds Up A Lot
+        './data/map5.png').convert()  # Convert Speeds Up A Lot
 
     global current_generation
     current_generation += 1
@@ -213,9 +213,9 @@ def run_simulation(genomes, config):
             output = nets[i].activate(car.get_data())
             choice = output.index(max(output))
             if choice == 0:
-                car.angle += 8  # Left
+                car.angle += 10  # Left
             elif choice == 1:
-                car.angle -= 8  # Right
+                car.angle -= 10  # Right
             # elif choice == 2:
             #     if (car.speed - 2 >= 12):
             #         car.speed -= 2  # Slow Down
