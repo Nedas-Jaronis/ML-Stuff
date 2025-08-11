@@ -1,19 +1,36 @@
+from tensorflow.keras.models import load_model
+from nltk.stem import WordNetLemmatizer
+import nltk
 import random
 import json
 import pickle
 import numpy as np
+import os
+print(os.getcwd())
+print(os.listdir(os.getcwd()))
 
-import nltk
-from nltk.stem import WordNetLemmatizer
 
-from tensorflow.keras.models import load_model
 lemmatizer = WordNetLemmatizer()
-intents = json.loads(open('intents.json').read())
+# Get the folder where chatbot.py lives
+base_dir = os.path.dirname(os.path.abspath(__file__))
 
-words = pickle.load(open('words.pkl', 'rb'))
-classes = pickle.load(open('classes.pkl', 'rb'))
+# Build paths relative to this script
+intents_path = os.path.join(base_dir, 'intents.json')
+words_path = os.path.join(base_dir, 'words.pkl')
+classes_path = os.path.join(base_dir, 'classes.pkl')
+model_path = os.path.join(base_dir, 'chatbot_model.h5')
 
-model = load_model('chatbot_model.h5')
+# Load files
+with open(intents_path, 'r') as f:
+    intents = json.load(f)
+
+with open(words_path, 'rb') as f:
+    words = pickle.load(f)
+
+with open(classes_path, 'rb') as f:
+    classes = pickle.load(f)
+
+model = load_model(model_path)
 
 
 def clean_up_sentence(sentence):
@@ -48,7 +65,7 @@ def predict_class(sentence):
 
 
 def get_response(intents_list, intents_json):
-    tag = intents_list[0]['intents']
+    tag = intents_list[0]['intent']
     list_of_intents = intents_json['intents']
     for i in list_of_intents:
         if i['tag'] == tag:
