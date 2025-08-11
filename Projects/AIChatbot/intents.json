@@ -1,0 +1,45 @@
+{"intents": [
+    {"tag": "greetings",
+    "patterns": ["hello", "hey" ,"hi", "good day", "greetings", " what's up?", "how is it going"],
+    "responses": ["Hello there!", "Hi there!", "Hey!", "Howdy!", "Greetings!", "What can I do for you?"]
+    },
+    {"tag": "goodbye",
+    "patterns": ["bye", "goodbye", "see you later", "have a good day", "see you soon"],
+    "responses": ["Goodbye!", "See you later!", "Have a great day!", "Bye!", "Take care!"]
+    },
+    {"tag": "age",
+    "patterns": ["how old", "what's your age", "when is your birthday", "when were you born"],
+    "resonses": ["My owner Ned is 19 years old", "I was born in 2006", "I am 19 years old"]
+    },
+    {
+        "tag": "name",
+        "patterns": ["what's your name", "what should I call you", "who are you"],
+        "responses": ["I am a chatbot", "You can call me Billy", "My name is Billy"]
+    },
+    {
+        "tag": "shop",
+        "patterns": ["where is the shop", "where is the store", "where is the supermarket"],
+        "responses": ["The shop is located at 123 Main Street", "The store is in the city center", "The supermarket is in the city center"]
+    },
+    {
+        "tag": "hours",
+        "patterns": ["when do you open", "when do you close", "what are your hours"],
+        "responses":["24/7", "Open always"]
+    },
+    {
+        "tag": "thanks",
+        "patterns": ["thanks", "thank you", "appreciate it"],
+        "responses": ["You're welcome!", "No problem!", "Glad I could help!"]
+    },
+    {
+        "tag": "weather",
+        "patterns": ["what's the weather", "how's the weather", "what is the weather"],
+        "responses": ["I'm sorry, I can't provide real-time weather information."]
+    },
+    {
+        "tag": "stocks",
+        "patterns": ["what stocks do I own?", "how are my shares?"],
+        "responses": ["You own the following shares: ABBV, AAPL, FB, NVDA"]
+    }
+
+]}
