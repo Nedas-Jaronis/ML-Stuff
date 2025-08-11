@@ -149,14 +149,14 @@ class Car:
         self.last_distance = self.distance
 
         # Base reward from progress
-        reward = progress * 5.0
+        reward = progress * 2.0
 
         # Small bonus for staying alive
         reward += 0.1
 
         # Heavy crash penalty
         if not self.alive:
-            reward -= 50.0
+            reward -= reward * 0.2
 
         return reward
 
@@ -194,7 +194,7 @@ def run_simulation(genomes, config):
     generation_font = pygame.font.SysFont("Arial", 30)
     alive_font = pygame.font.SysFont("Arial", 20)
     game_map = pygame.image.load(
-        './data/map2.png').convert()  # Convert Speeds Up A Lot
+        './data/map.png').convert()  # Convert Speeds Up A Lot
 
     global current_generation
     current_generation += 1
@@ -213,14 +213,14 @@ def run_simulation(genomes, config):
             output = nets[i].activate(car.get_data())
             choice = output.index(max(output))
             if choice == 0:
-                car.angle += 10  # Left
+                car.angle += 8  # Left
             elif choice == 1:
-                car.angle -= 10  # Right
-            elif choice == 2:
-                if (car.speed - 2 >= 12):
-                    car.speed -= 2  # Slow Down
-            else:
-                car.speed += 2  # Speed Up
+                car.angle -= 8  # Right
+            # elif choice == 2:
+            #     if (car.speed - 2 >= 12):
+            #         car.speed -= 2  # Slow Down
+            # else:
+            #     car.speed += 2  # Speed Up
 
         # Check If Car Is Still Alive
         # Increase Fitness If Yes And Break Loop If Not
